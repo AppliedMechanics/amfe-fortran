@@ -9,4 +9,5 @@ set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-message(STATUS "CMake was called")
+add_subdirectory(amfefortran)
+
