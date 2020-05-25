@@ -6,7 +6,7 @@
 !
 
 
-module shapefunc
+module shapefunction_fun
     use, intrinsic:: iso_fortran_env, only: dp=>real64
     implicit none
 
@@ -715,4 +715,4 @@ module shapefunc
             shape=(/10,3/))
         end subroutine tet10_jacobian
 
-end module shapefunc
+end module shapefunction_fun
