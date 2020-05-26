@@ -1,4 +1,4 @@
-add_library(shapefunction SHARED "")
+add_library(shapefunction STATIC "")
 
 target_sources(shapefunction
     PRIVATE
@@ -14,10 +14,8 @@ set_target_properties(shapefunction
 install(
     TARGETS
         shapefunction
-    ARCHIVE
-        DESTINATION ${INSTALL_LIBDIR}
-    RUNTIME
-        DESTINATION ${INSTALL_LIBDIR}
     LIBRARY
         DESTINATION ${INSTALL_LIBDIR}
+    OBJECTS
+        DESTINATION ${INSTALL_OBJDIR}
     )
