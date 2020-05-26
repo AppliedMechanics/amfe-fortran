@@ -2,3 +2,9 @@
 build/*
 build_cmake/*
 lib/*
+dist/*
+
+*.egg-info
+*.so
+amfefortran/*.c
+

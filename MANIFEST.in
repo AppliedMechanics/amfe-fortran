@@ -1,0 +1,6 @@
+include CMakeLists.txt
+include LICENSE
+include README.md
+recursive-include src/ *.txt *.f90
+recursive-include amfefortran/ *.pyx
+recursive-exclude amfefortran/ *.c
