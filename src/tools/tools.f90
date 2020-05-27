@@ -12,7 +12,7 @@ module tools
 
 
     contains
-        subroutine f_green_lagrange_strain_2d(F, Evout)
+        subroutine green_lagrange_strain_2d(F, Evout)
             real(dp), intent(in) :: F(2, 2)
             real(dp), intent(out) :: Evout(3)
 
@@ -24,9 +24,9 @@ module tools
             Evout(1) = E(1,1)
             Evout(2) = E(2,2)
             Evout(3) = 2.0_dp * E(1,2)
-        end subroutine
+        end subroutine green_lagrange_strain_2d
 
-        subroutine f_green_lagrange_strain_3d(F, Evout)
+        subroutine green_lagrange_strain_3d(F, Evout)
             real(dp), intent(in) :: F(3,3)
             real(dp), intent(out) :: Evout(6)
 
@@ -42,9 +42,9 @@ module tools
             Evout(4) = 2.0_dp * E(2, 3)
             Evout(5) = 2.0_dp * E(1, 3)
             Evout(6) = 2.0_dp * E(1, 2)
-        end subroutine
+        end subroutine green_lagrange_strain_3d
 
-        subroutine f_scatter_matrix(A, B, ndim, m, n)
+        subroutine scatter_matrix(A, B, ndim, m, n)
             integer, intent(in) :: m
             integer, intent(in) :: n
             integer, intent(in) :: ndim
@@ -64,14 +64,14 @@ module tools
                 end do
             end do
 
-        end subroutine f_scatter_matrix
+        end subroutine scatter_matrix
 
-        real(dp) function f_determinant_2d(mat)
+        real(dp) function determinant_2d(mat)
             real(dp), intent(in) :: mat(2, 2)
-            f_determinant_2d = mat(1, 1) * mat(2, 2) - mat(1, 2) * mat(2, 1)
-        end function f_determinant_2d
+            determinant_2d = mat(1, 1) * mat(2, 2) - mat(1, 2) * mat(2, 1)
+        end function determinant_2d
 
-        subroutine f_inverse_matrix_2d(mat, det, matout)
+        subroutine inverse_matrix_2d(mat, det, matout)
             real(dp), intent(in) :: mat(2, 2)
             real(dp), intent(in) :: det
             real(dp), intent(out) :: matout(2, 2)
@@ -80,7 +80,7 @@ module tools
                                 -mat(2, 1) / det, &
                                 -mat(1, 2) / det, &
                                 mat(1, 1) / det /), shape=(/2,2/))
-        end subroutine
+        end subroutine inverse_matrix_2d
 
 
 end module tools
