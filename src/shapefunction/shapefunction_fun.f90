@@ -32,7 +32,6 @@ module shapefunction_fun
         subroutine line2_evaluate(xi, out)
             real(dp), intent(in) :: xi
             real(dp), intent(out) :: out(2)
-            !real(dp), pointer, intent(out) :: out(:)
 
             out = (/ 0.5_dp * (1.0_dp - xi), &
                      0.5_dp * (1.0_dp + xi) /)
