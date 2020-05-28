@@ -3,6 +3,7 @@ add_library(shapefunction STATIC "")
 target_sources(shapefunction
     PRIVATE
         ${CMAKE_CURRENT_LIST_DIR}/shapefunction_fun.f90
+        ${CMAKE_CURRENT_LIST_DIR}/shapefunction_obj.f90
         ${CMAKE_CURRENT_LIST_DIR}/shapefunction_wrapper.f90
     )
 
