@@ -3,6 +3,7 @@ add_library(material STATIC "")
 target_sources(material
     PRIVATE
         ${CMAKE_CURRENT_LIST_DIR}/material_fun.f90
+        ${CMAKE_CURRENT_LIST_DIR}/material_obj.f90
     )
 
 set_target_properties(material

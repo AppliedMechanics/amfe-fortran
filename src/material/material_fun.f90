@@ -10,6 +10,11 @@ module material_fun
     use, intrinsic:: iso_fortran_env, only: dp=>real64
     use tools
     implicit none
+    private
+
+    public kirchhoff_sv_c_dc_3d, kirchhoff_sv_c_dc_2d, &
+            mooney_rivlin_sv_c_dc_3d, mooney_rivlin_sv_c_dc_2d, &
+            neo_hookean_sv_c_dc_3d, neo_hookean_sv_c_dc_2d
 
     contains
     
