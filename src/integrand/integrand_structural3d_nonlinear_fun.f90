@@ -5,7 +5,7 @@
 ! Distributed under 3-Clause BSD license. See LICENSE file for more information.
 !
 
-module integrand_structural3d_nonlinear
+module integrand_structural3d_nonlinear_fun
     use, intrinsic:: iso_fortran_env, only: dp=>real64
     use tools
     use fields
@@ -14,14 +14,18 @@ module integrand_structural3d_nonlinear
     private
 
     public igstrc3dnl_fields, igstrc3dnl_no_of_dofs, igstrc3dnl_spatial_dimension, igstrc3dnl_f_int_and_jac, &
-            igstrc3dnl_m_int
+            igstrc3dnl_m_int, igstrc3dnl_no_of_fields
 
     contains
         
         subroutine igstrc3dnl_fields(fields)
-            integer, intent(out) :: fields(3)
+            integer, intent(out) :: fields(:)
             fields = (/ UX, UY, UZ /)
         end subroutine igstrc3dnl_fields
+
+        integer function igstrc3dnl_no_of_fields() result(no_of_fields)
+            no_of_fields = 3
+        end function igstrc3dnl_no_of_fields
 
         integer function igstrc3dnl_no_of_dofs(no_of_nodes)
             integer, intent(in) :: no_of_nodes
@@ -94,7 +98,7 @@ module integrand_structural3d_nonlinear
 
         end subroutine igstrc3dnl_f_int_and_jac
 
-        subroutine igstrc3dnl_m_int(n, dn_dxi, xn, d, dd, t, density_times_thickness, m_out, no_of_fields, &
+        subroutine igstrc3dnl_m_int(n, dn_dxi, xn, d, dd, t, density, m_out, no_of_fields, &
         spatial_dimension, no_of_nodes)
 
             integer, intent(in) :: no_of_fields
@@ -106,7 +110,7 @@ module integrand_structural3d_nonlinear
             real(dp), intent(in) :: d(no_of_nodes*spatial_dimension)
             real(dp), intent(in) :: dd(no_of_nodes*spatial_dimension)
             real(dp), intent(in) :: t
-            real(dp), intent(in) :: density_times_thickness
+            real(dp), intent(in) :: density
             real(dp), intent(inout) :: m_out(no_of_fields*no_of_nodes,no_of_fields*no_of_nodes)
 
             real(dp) :: x_mat(spatial_dimension, no_of_nodes)
@@ -126,7 +130,7 @@ module integrand_structural3d_nonlinear
                     m_small(k,m) = n(k)*n(m)
                 end do
             end do
-            m_small = m_small * detJ * density_times_thickness
+            m_small = m_small * detJ * density
 
             call scatter_matrix(m_small, m_out, spatial_dimension, no_of_nodes, no_of_nodes)
 
@@ -297,4 +301,4 @@ module integrand_structural3d_nonlinear
 
         end subroutine
 
-end module integrand_structural3d_nonlinear
+end module integrand_structural3d_nonlinear_fun

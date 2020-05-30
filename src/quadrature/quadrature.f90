@@ -11,7 +11,7 @@ module quadrature
     
     private
     public quadrature_1d, quadrature_2d, quadrature_3d
-    
+
     contains
         
         subroutine quadrature_1d(f_1d, out, evaluationpoints, weights, out_no_of_rows, out_no_of_cols, no_of_gps)

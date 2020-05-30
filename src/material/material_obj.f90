@@ -12,7 +12,7 @@ module material_obj
     implicit none
     private
 
-    public kirchhoffmaterial
+    public material, kirchhoffmaterial, sv_c_dc_3d_interface, sv_c_dc_2d_interface
 
     integer, public, parameter :: HypothesisTridimensional = 0
     integer, public, parameter :: HypothesisPlanestrain = 1
@@ -21,11 +21,17 @@ module material_obj
 
     type, abstract :: material
         contains
+            procedure(no_of_states_interface), deferred :: no_of_states
             procedure(sv_c_dc_3d_interface), deferred :: sv_c_dc_3d
             procedure(sv_c_dc_2d_interface), deferred :: sv_c_dc_2d
     end type material
 
     interface
+        integer function no_of_states_interface(this)
+            import material, dp
+            class(material) :: this
+        end function no_of_states_interface
+
         subroutine sv_c_dc_3d_interface(this, f, df, t, s0, t0, s1, sv_out, c_out, dc_out)
             import material, dp
             class(material) :: this
@@ -63,11 +69,19 @@ module material_obj
         real(dp) :: density
         integer :: hypothesis
         contains
+            procedure :: no_of_states => kirchhoff_no_of_states
             procedure :: sv_c_dc_3d => kirchhoff_obj_sv_c_dc_3d
             procedure :: sv_c_dc_2d => kirchhoff_obj_sv_c_dc_2d
     end type kirchhoffmaterial
 
     contains
+
+        function kirchhoff_no_of_states(this) result(no_of_states)
+            class(kirchhoffmaterial) :: this
+            integer :: no_of_states
+            no_of_states = 0
+        end function kirchhoff_no_of_states
+
         subroutine kirchhoff_obj_sv_c_dc_3d(this, f, df, t, s0, t0, s1, sv_out, c_out, dc_out)
             class(kirchhoffmaterial) :: this
             real(dp), intent(in) :: f(3,3)

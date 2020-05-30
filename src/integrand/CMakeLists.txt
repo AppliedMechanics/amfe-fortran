@@ -2,9 +2,11 @@ add_library(integrand STATIC "")
 
 target_sources(integrand
     PRIVATE
-        ${CMAKE_CURRENT_LIST_DIR}/integrand_structural2d_nonlinear.f90
-        ${CMAKE_CURRENT_LIST_DIR}/integrand_structural3d_nonlinear.f90
+        ${CMAKE_CURRENT_LIST_DIR}/integrand_structural2d_nonlinear_fun.f90
+        ${CMAKE_CURRENT_LIST_DIR}/integrand_structural3d_nonlinear_fun.f90
         ${CMAKE_CURRENT_LIST_DIR}/fields.f90
+        ${CMAKE_CURRENT_LIST_DIR}/integrand2d_obj.f90
+        ${CMAKE_CURRENT_LIST_DIR}/integrand3d_obj.f90
     )
 
 set_target_properties(integrand

@@ -5,7 +5,7 @@
 ! Distributed under 3-Clause BSD license. See LICENSE file for more information.
 !
 
-module integrand_structural2d
+module integrand_structural2d_nonlinear_fun
     use, intrinsic:: iso_fortran_env, only: dp=>real64
     use tools
     use fields
@@ -14,14 +14,18 @@ module integrand_structural2d
     private
 
     public igstrc2dnl_fields, igstrc2dnl_no_of_dofs, igstrc2dnl_spatial_dimension, igstrc2dnl_f_int_and_jac, &
-            igstrc2dnl_m_int
+            igstrc2dnl_m_int, igstrc2dnl_no_of_fields
 
     contains
 
         subroutine igstrc2dnl_fields(fields)
-            integer, intent(out) :: fields(2)
+            integer, intent(out) :: fields(:)
             fields = (/ UX, UY /)
         end subroutine igstrc2dnl_fields
+
+        integer function igstrc2dnl_no_of_fields() result(no_of_fields)
+            no_of_fields = 2
+        end function igstrc2dnl_no_of_fields
 
         integer function igstrc2dnl_no_of_dofs(no_of_nodes)
             integer, intent(in) :: no_of_nodes
@@ -38,11 +42,11 @@ module integrand_structural2d
             integer, intent(in) :: no_of_nodes
             integer, intent(in) :: no_of_states
             integer, intent(in) :: no_of_fields
-            real(dp), intent(in) :: n(no_of_nodes)
-            real(dp), intent(in) :: dn_dxi(no_of_nodes,spatial_dimension)
-            real(dp), intent(in) :: xn(no_of_nodes*spatial_dimension)
-            real(dp), intent(in) :: d(no_of_nodes*spatial_dimension)
-            real(dp), intent(in) :: dd(no_of_nodes*spatial_dimension)
+            real(dp), intent(in) :: n(no_of_nodes) ! size(no_of_nodes)
+            real(dp), intent(in) :: dn_dxi(no_of_nodes,spatial_dimension) ! size(no_of_nodes, spatial_dimension)
+            real(dp), intent(in) :: xn(no_of_nodes*spatial_dimension) ! size(no_of_nodes*spatial_dimension)
+            real(dp), intent(in) :: d(no_of_nodes*spatial_dimension) ! size(no_of_nodes*spatial_dimension)
+            real(dp), intent(in) :: dd(no_of_nodes*spatial_dimension) ! size(no_of_nodes*spatial_dimension)
             real(dp), intent(in) :: t
             interface
                 subroutine sv_c_dc_2d(f, df, t, s0, t0, s1, sv_out, c_out, dc_out)
@@ -59,9 +63,9 @@ module integrand_structural2d
                 end subroutine sv_c_dc_2d
             end interface
             procedure(sv_c_dc_2d) :: matfunc_2d
-            real(dp), intent(in) :: s0(no_of_states)
+            real(dp), intent(in) :: s0(no_of_states) ! size(no_of_states)
             real(dp), intent(in) :: t0
-            real(dp), intent(inout) :: s1(no_of_states)
+            real(dp), intent(inout) :: s1(no_of_states) ! size(no_of_states)
             real(dp), intent(inout) :: f_int_k_dk_out(no_of_nodes*spatial_dimension,no_of_nodes*spatial_dimension*2+1)
 
             integer :: no_of_dofs
@@ -234,4 +238,4 @@ module integrand_structural2d
             Fout(2, 2) = Fout(2,2) + 1.0_dp
         end subroutine
 
-end module integrand_structural2d
+end module integrand_structural2d_nonlinear_fun
